@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AiInPsychology(Ψ) - Where Psychology Meets AI</title>
+  <link rel="icon" type="image/x-icon" href="/favicon-16x16.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #ffffff;
+      --text-color: #333333;
+      --accent-color: #f0f0f0;
+      --highlight: #8a2be2;
+      --secondary-highlight: #4a90e2;
+      --font-main: 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-main);
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--accent-color);
+      position: sticky;
+      top: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .logo span {
+      color: var(--highlight);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    .nav-links a:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--highlight);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover:after {
+      width: 100%;
+    }
+    
+    .nav-links a:hover {
+      color: var(--highlight);
+    }
+    
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 150px 0;
+      overflow: hidden;
+      background-color: var(--primary-color);
+    }
+    
+    .hero-brain-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      opacity: 0.1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #666;
+    }
+    
+    .cta-button {
+      padding: 12px 30px;
+      background-color: var(--highlight);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .cta-button:hover {
+      background-color: #7223bd;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    }
+    
+    .features {
+      padding: 100px 0;
+      background-color: var(--accent-color);
+      position: relative;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 50px;
+      color: var(--text-color);
+    }
+    
+    .section-title span {
+      color: var(--highlight);
+    }
+    
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .feature-card {
+      background-color: var(--primary-color);
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: var(--highlight);
+      background: linear-gradient(135deg, var(--highlight), var(--secondary-highlight));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    
+    .feature-card h3:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--highlight), var(--secondary-highlight));
+    }
+    
+    .feature-card p {
+      color: #666;
+    }
+    
+    .about {
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .about-container {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .about-image {
+      flex: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      transition: transform 0.5s;
+      height: 400px;
+      position: relative;
+    }
+    
+    .about-image:hover {
+      transform: scale(1.03);
+    }
+    
+    .about-content {
+      flex: 1;
+    }
+    
+    .about-content h2 {
+      font-size: 36px;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .about-content h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--highlight), var(--secondary-highlight));
+    }
+    
+    .about-content p {
+      margin-bottom: 20px;
+      color: #555;
+      font-size: 17px;
+    }
+    
+    .join {
+      padding: 100px 0;
+      background-color: var(--accent-color);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .join-brain-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      opacity: 0.05;
+    }
+    
+    .join-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .join h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    
+    .join p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #555;
+      font-size: 18px;
+    }
+    
+    .newsletter {
+      max-width: 500px;
+      margin: 40px auto 0;
+      position: relative;
+    }
+    
+    .newsletter input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .newsletter input:focus {
+      border-color: var(--highlight);
+      box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+    }
+    
+    .newsletter button {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      padding: 10px 25px;
+      background-color: var(--highlight);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .newsletter button:hover {
+      background-color: #7223bd;
+    }
+    
+    .resources {
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .resources-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    
+    .resource-card {
+      background-color: var(--primary-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .resource-image {
+      height: 160px;
+      overflow: hidden;
+    }
+    
+    .resource-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    
+    .resource-card:hover .resource-image img {
+      transform: scale(1.1);
+    }
+    
+    .resource-content {
+      padding: 20px;
+    }
+    
+    .resource-content h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .resource-content p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .resource-link {
+      display: inline-block;
+      color: var(--highlight);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    
+    .resource-link:hover {
+      color: #7223bd;
+    }
+    
+    footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid var(--accent-color);
+      background-color: #fbfbfb;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-column h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .footer-column h3:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 30px;
+      height: 2px;
+      background-color: var(--highlight);
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      text-decoration: none;
+      color: #666;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--highlight);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #eee;
+      color: #666;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--highlight);
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    /* Animation classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+      }
+      
+      .hero h1 {
+        font-size: 36px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .section-title {
+        font-size: 30px;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Neural network animation styles */
+    #brain-network-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .social-links a {
+    font-size: 24px;
+    color: #333; 
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  .social-links a:hover {
+    color: #0073b1; /* LinkedIn Blue */
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">AiInPsychology<span>(Ψ)</span></div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#resources">Resources</a>
+          <a href="#join">Join Us</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <section id="home" class="hero">
+    <div class="hero-brain-container">
+      <canvas id="brain-network-canvas"></canvas>
+    </div>
+    <div class="container hero-content">
+      <h1>Where Psychology Meets Artificial Intelligence</h1>
+      <p>Join our community of psychologists, researchers, and AI enthusiasts exploring the intersection of psychological science and machine learning.</p>
+      <a href="https://discord.gg/your-discord-server-link" class="cta-button">Join the Community</a>
+    </div>
+  </section>
+  
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Our <span>Features</span></h2>
+      <div class="features-container">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🔬</div>
+          <h3>Research Collaboration</h3>
+          <p>Connect with fellow researchers to collaborate on groundbreaking studies combining psychology and AI methodologies.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon">🧠</div>
+          <h3>LLM Training</h3>
+          <p>Learn how to leverage large language models in psychological research through our comprehensive training programs.</p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-icon">📚</div>
+          <h3>Resources Library</h3>
+          <p>Access our growing collection of papers, tutorials, and tools specifically designed for psychologists exploring AI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title">About <span>Our Community</span></h2>
+      <div class="about-container">
+        <div class="about-image fade-in">
+          <img src="/istockphoto-1053434168-612x612.jpg" alt="Human brain connected to AI neural network">
+        </div>
+        <div class="about-content fade-in">
+          <h2>Bridging Neuroscience & AI</h2>
+          <p>AiInPsychology(Ψ) was founded with a vision to bridge the gap between psychological science and artificial intelligence. We believe that the integration of these fields can lead to significant advancements in our understanding of human cognition and behavior.</p>
+          <p>Our community brings together psychologists, cognitive scientists, AI researchers, and students passionate about exploring this intersection through collaborative research, knowledge sharing, and technological innovation.</p>
+          <a href="#join" class="cta-button">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="resources" class="resources">
+    <div class="container">
+      <h2 class="section-title">Latest <span>Resources</span></h2>
+      <div class="resources-container">
+        <div class="resource-card fade-in">
+          <div class="resource-image">
+            <img src="/240_F_1045853419_ADSttEJbCYh1uXYdq9BhvFc9oIiMGR3R.jpg" alt="LLM for Psychology Research">
+          </div>
+          <div class="resource-content">
+            <h3>LLMs in Psychological Assessment</h3>
+            <p>Explore how large language models can be used to enhance psychological assessment methods.</p>
+            <a href="#" class="resource-link">Read More →</a>
+          </div>
+        </div>
+        <div class="resource-card fade-in">
+          <div class="resource-image">
+            <img src="/neural img.png" alt="Brain-Computer Interfaces">
+          </div>
+          <div class="resource-content">
+            <h3>Brain-Computer Interfaces</h3>
+            <p>Learn about the latest advances in BCI technology and their implications for psychology.</p>
+            <a href="#" class="resource-link">Read More →</a>
+          </div>
+        </div>
+        <div class="resource-card fade-in">
+          <div class="resource-image">
+            <img src="/ethics.jpg" alt="AI Ethics in Psychology">
+          </div>
+          <div class="resource-content">
+            <h3>AI Ethics in Psychology</h3>
+            <p>Understanding the ethical considerations of implementing AI in psychological practice.</p>
+            <a href="#" class="resource-link">Read More →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="join" class="join">
+    <div class="join-brain-container">
+      <div id="particles-js"></div>
+    </div>
+    <div class="container join-content">
+      <h2 class="section-title">Join <span>Our Community</span></h2>
+      <p>Become part of a growing network of professionals and researchers dedicated to advancing the field of psychology through AI integration.</p>
+      
+    
+      
+      <div class="newsletter">
+        <input type="email" id="email" placeholder="Enter your email for updates">
+        <button type="submit" id="subscribeButton">Subscribe</button>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>AiInPsychology(Ψ)</h3>
+          <p>Advancing psychological science through artificial intelligence and machine learning.</p>
+          <div class="social-links">
+            <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#join">Join Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul class="footer-links">
+            <li><a href="#">Research Papers</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Webinars</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Tools</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <ul class="footer-links">
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        &copy; 2025 AiInPsychology(Ψ). All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for fade-in animations
+    document.addEventListener("DOMContentLoaded", function() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      
+      fadeElements.forEach(element => {
+        observer.observe(element);
+      });
+      
+      // Neural network visualization
+      const canvas = document.getElementById('brain-network-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      
+      // Neural network simulation
+      const particles = [];
+      const numParticles = 80;
+      const connectionDistance = 100;
+      const brainShape = true;
+      
+      class Particle {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.color = '#8a2be2';
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      function init() {
+        for (let i = 0; i < numParticles; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          particles.push(new Particle(x, y));
+        }
+      }
+      
+      function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < connectionDistance) {
+              const opacity = 1 - (distance / connectionDistance);
+              ctx.strokeStyle = `rgba(138, 43, 226, ${opacity * 0.4})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        
+        connectParticles();
+        requestAnimationFrame(animate);
+      }
+      
+      // Start the animation
+      init();
+      animate();
+      
+      // Handle resize
+      window.addEventListener('resize', function() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      });
+    });
+    
+    document.getElementById('subscribeButton').addEventListener('click', function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+
+      if (email) {
+        fetch('https://your-server-endpoint.com/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Subscription successful!');
+          } else {
+            alert('Subscription failed. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+        });
+      } else {
+        alert('Please enter a valid email address.');
+      }
+    });
+  </script>
+</body>
+</html>
